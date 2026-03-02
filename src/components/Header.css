@@ -1,0 +1,437 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+  background: rgba(10, 10, 10, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: visible;
+  width: 100%;
+}
+
+.header.scrolled {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(69, 36, 198, 0.2);
+}
+
+.nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  overflow: visible;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.nav-brand:hover {
+  transform: scale(1.1);
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(69, 36, 198, 0.3));
+  transition: filter 0.3s ease;
+  display: block;
+}
+
+.nav-brand:hover .brand-logo {
+  filter: drop-shadow(0 4px 12px rgba(69, 36, 198, 0.5));
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow: visible;
+}
+
+.nav-menu a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+.nav-menu-item a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+.nav-menu a:hover,
+.nav-menu-item a:hover {
+  color: #FF9FFC;
+}
+
+.nav-menu a::after,
+.nav-menu-item a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4524c6, #FF9FFC);
+  transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after,
+.nav-menu-item a:hover::after {
+  width: 100%;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+  width: 28px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  border-radius: 3px;
+  display: block;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(9px, 9px);
+  background: #FF9FFC;
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(8px, -8px);
+  background: #FF9FFC;
+}
+
+/* Overlay para el menú móvil */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 1024px) {
+  .nav-menu {
+    gap: 1.5rem;
+  }
+
+  .nav-menu a {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ocultar elementos del menú móvil en desktop */
+.mobile-menu-overlay {
+  display: none;
+}
+
+.mobile-menu-header {
+  display: none;
+}
+
+.menu-title {
+  display: none;
+}
+
+.close-menu-btn {
+  display: none;
+}
+
+/* En desktop, mostrar los elementos del menú como lista horizontal normal */
+.nav-menu-item {
+  display: list-item;
+  width: auto;
+  border-bottom: none;
+}
+
+.nav-menu-item .menu-text {
+  display: inline;
+}
+
+.nav-menu-item a {
+  display: inline;
+  padding: 0;
+  width: auto;
+  position: relative;
+}
+
+.nav-menu-item a::before {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    padding: 0 1.5rem;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-toggle.active {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Mostrar overlay del menú móvil */
+  .mobile-menu-overlay {
+    display: block;
+  }
+
+  /* Ocultar menú horizontal en móvil */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(30px);
+    padding: 0;
+    gap: 0;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-wrap: nowrap;
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+    border-left: 1px solid rgba(69, 36, 198, 0.2);
+  }
+
+  .nav-menu.active {
+    transform: translateX(0);
+  }
+
+  /* Mostrar elementos del menú móvil */
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 1.5rem 2rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(69, 36, 198, 0.1), rgba(255, 159, 252, 0.1));
+    gap: 1rem;
+  }
+
+  .menu-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4524c6, #FF9FFC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    padding-left: 0;
+    margin-right: auto;
+  }
+
+  .close-menu-btn {
+    display: flex;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.4rem;
+    line-height: 1;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    width: auto;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .close-menu-btn:hover {
+    color: #FF9FFC;
+    background: rgba(255, 159, 252, 0.1);
+    transform: rotate(90deg);
+  }
+
+  .nav-menu-item {
+    display: block !important;
+    width: 100%;
+    list-style: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-menu-item:last-child {
+    border-bottom: none;
+  }
+
+  .nav-menu-item .menu-text {
+    display: block !important;
+  }
+
+  .nav-menu-item a {
+    display: flex !important;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    width: 100%;
+  }
+
+  .nav-menu-item a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: linear-gradient(90deg, rgba(69, 36, 198, 0.2), rgba(255, 159, 252, 0.2));
+    transition: width 0.3s ease;
+  }
+
+  .nav-menu-item a:hover::before {
+    width: 4px;
+  }
+
+  .nav-menu-item a:hover {
+    color: #FF9FFC;
+    background: rgba(69, 36, 198, 0.05);
+    padding-left: 2rem;
+  }
+
+  .menu-text {
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .nav-menu-item a:hover .menu-text {
+    transform: translateX(5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 0;
+  }
+
+  .nav {
+    padding: 0 1rem;
+  }
+
+  .brand-logo {
+    height: 35px;
+  }
+
+  .nav-menu {
+    width: 300px;
+    max-width: 80vw;
+  }
+
+  .mobile-menu-header {
+    padding: 1.75rem 1.25rem 1.75rem 1rem;
+  }
+
+  .menu-title {
+    font-size: 1rem;
+  }
+
+  .nav-menu-item a {
+    padding: 1.1rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .menu-number {
+    font-size: 0.8rem;
+    min-width: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding: 0 0.75rem;
+  }
+
+  .brand-logo {
+    height: 30px;
+  }
+
+  .nav-menu {
+    width: 280px;
+    max-width: 85vw;
+  }
+
+  .mobile-menu-header {
+    padding: 1.5rem 1rem 1.5rem 0.75rem;
+  }
+
+  .menu-title {
+    font-size: 0.95rem;
+  }
+
+  .nav-menu-item a {
+    padding: 1rem 1rem;
+    font-size: 0.9rem;
+  }
+}
