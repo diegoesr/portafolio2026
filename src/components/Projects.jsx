@@ -1,4 +1,5 @@
 import './Projects.css';
+import checkpointImage from '../assets/images/projects/project4.jpg';
 import project1Image from '../assets/images/projects/project1.jpg';
 import project2Image from '../assets/images/projects/project2.jpg';
 import project3Image from '../assets/images/projects/project3.jpg';
@@ -6,6 +7,23 @@ import project3Image from '../assets/images/projects/project3.jpg';
 const projects = [
   {
     id: 1,
+    title: 'Checkpoint',
+    description:
+      'Red social para videojuegos con: perfiles públicos, reseñas, listas, backlog, diario de actividad, amigos y noticias gaming.',
+    technologies: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Supabase',
+      'PostgreSQL',
+    ],
+    image: checkpointImage,
+    github: 'https://github.com/diegoesr/Checkpoint',
+    demo: 'https://checkpoint-omega.vercel.app/'
+  },
+  {
+    id: 2,
     title: 'SIGEP - iOS',
     description: 'Sistema de gestión para laboratorios iOS que permite administrar equipos, préstamos y usuarios.',
     technologies: ['React', 'Vite', 'Tailwind', 'CSS', 'TypeScript', 'PHP', 'MySQL', 'Docker', 'Adminer'],
@@ -14,7 +32,7 @@ const projects = [
     demo: '#'
   },
   {
-    id: 2,
+    id: 3,
     title: 'HorarioFI',
     description: 'Sistema de gestión de horarios para la Facultad de Ingeniería. Permite visualizar y administrar horarios de clases, profesores y salones de manera eficiente.',
     technologies: ['HTML', 'CSS3', 'JavaScript', 'Bootstrap', 'PHP', 'MySQL'],
@@ -23,7 +41,7 @@ const projects = [
     demo: 'https://horariofi.kesug.com/'
   },
   {
-    id: 3,
+    id: 4,
     title: 'Inmobiliaria Crescendolls',
     description: 'Sitio web inmobiliario moderno con catálogo de propiedades, sistema de favoritos y modo oscuro.',
     technologies: ['HTML', 'CSS3', 'JavaScript', 'PHP', 'MySQL', 'Docker', 'Adminer'],
