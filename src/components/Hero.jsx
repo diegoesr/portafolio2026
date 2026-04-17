@@ -6,8 +6,8 @@ import './Hero.css';
 export default function Hero() {
   const handleDownloadCV = () => {
     const link = document.createElement('a');
-    link.href = '/CV_FS.pdf';
-    link.download = 'CV_Diego_Esparza_Rodriguez.pdf';
+    link.href = '/CV_DEVELOPMENT.pdf';
+    link.download = 'CV_DEVELOPMENT.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
