@@ -1,6 +1,6 @@
 import LiquidEther from './LiquidEther';
 import TextType from './TextType';
-import profileImage from '../assets/images/profile.jpg';
+import profileImage from '../assets/images/profileCV.jpg';
 import './Hero.css';
 
 export default function Hero() {
