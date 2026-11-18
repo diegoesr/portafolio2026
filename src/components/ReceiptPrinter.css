@@ -1,0 +1,286 @@
+.receipt-printer {
+  --rp-paper: #f6f4ee;
+  --rp-ink: #25252a;
+  --rp-muted: #77777f;
+  --rp-printer: #2b2b30;
+  --rp-printer-top: #3a3a40;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(var(--rp-width) + 48px);
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+/* ---------- Papel ---------- */
+
+.rp-feed {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* el papel se inclina hacia atrás al salir */
+  perspective: 900px;
+  /* recorta solo por abajo (lo que sigue dentro de la impresora); arriba puede salir volando al arrancarlo */
+  clip-path: inset(-600px -200px 0 -200px);
+  margin-bottom: -10px;
+}
+
+.rp-paper {
+  position: relative;
+  width: var(--rp-width);
+  max-width: calc(100% - 24px);
+  color: var(--rp-ink);
+  background: var(--rp-paper);
+  transform-origin: center bottom;
+  transition-property: transform, opacity;
+  transition-timing-function: steps(28, end);
+  transition-duration: 0.45s;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.receipt-printer.is-printed .rp-paper {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rp-paper.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+/* Arrancado: sale volando hacia arriba */
+.rp-paper.is-torn {
+  transition: transform 0.6s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.6s ease;
+  transform: translateY(-140%) rotate(-8deg) !important;
+  opacity: 0;
+}
+
+/* Borde superior dentado (papel cortado) */
+.rp-edge {
+  position: absolute;
+  top: -7px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: var(--rp-paper);
+  -webkit-mask: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+  mask: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+}
+
+.rp-body {
+  padding: 1.4rem 1.25rem 1.6rem;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.rp-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.15rem;
+}
+
+.rp-text {
+  white-space: pre-wrap;
+}
+
+.rp-center { text-align: center; }
+.rp-right { text-align: right; }
+.rp-left { text-align: left; }
+
+.rp-muted {
+  color: var(--rp-muted);
+}
+
+.rp-divider {
+  border-top: 1.5px dashed rgba(37, 37, 42, 0.45);
+  margin: 0.7rem 0;
+}
+
+.rp-space {
+  height: 0.7rem;
+}
+
+.rp-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.rp-row-left {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rp-row-dots {
+  flex: 1;
+  min-width: 12px;
+  border-bottom: 1.5px dotted rgba(37, 37, 42, 0.35);
+  transform: translateY(-0.3em);
+}
+
+.rp-row > :last-child {
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.rp-link {
+  color: var(--rp-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.rp-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.rp-barcode {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 44px;
+  margin: 0.9rem 0 0.25rem;
+  overflow: hidden;
+}
+
+.rp-barcode span {
+  display: block;
+  flex-shrink: 0;
+  background: var(--rp-ink);
+}
+
+/* ---------- Impresora ---------- */
+
+.rp-printer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 86px;
+  border-radius: 18px 18px 22px 22px;
+  background: linear-gradient(180deg, var(--rp-printer-top), var(--rp-printer) 40%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
+}
+
+.receipt-printer.is-off .rp-printer {
+  transform: translateY(36px);
+  opacity: 0;
+}
+
+.receipt-printer.is-off .rp-feed,
+.receipt-printer.is-rising .rp-feed {
+  visibility: hidden;
+}
+
+.rp-printer.is-working {
+  animation: rp-buzz 0.12s linear infinite;
+}
+
+@keyframes rp-buzz {
+  50% {
+    transform: translateY(0.6px);
+  }
+}
+
+.rp-slot {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  right: 14px;
+  height: 8px;
+  border-radius: 6px;
+  background: #0b0b0d;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.rp-panel {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rp-led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4a4a50;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rp-led.is-on {
+  background: #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+  animation: rp-blink 0.5s steps(1) 2;
+}
+
+.rp-led.is-busy {
+  animation: rp-blink 0.35s steps(1) infinite;
+}
+
+@keyframes rp-blink {
+  50% {
+    background: #4a4a50;
+    box-shadow: none;
+  }
+}
+
+.rp-grill {
+  display: flex;
+  gap: 5px;
+}
+
+.rp-grill span {
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.rp-hint {
+  margin: 1rem 0 0;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.4s;
+}
+
+.rp-hint.is-visible {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .rp-body {
+    padding: 1.2rem 1rem 1.4rem;
+    font-size: 11.5px;
+  }
+
+  .rp-printer {
+    height: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-printer.is-working,
+  .rp-led.is-on,
+  .rp-led.is-busy {
+    animation: none;
+  }
+}

@@ -6,17 +6,15 @@ import './TerminalReplay.css';
  * Implementación propia inspirada en "Terminal Replay" de React Bits Pro.
  *
  * script: arreglo de pasos
- *   { type: 'command', text }            -> se escribe letra por letra después del prompt
- *   { type: 'output', text }             -> aparece de inmediato (admite etiquetas de color)
- *   { type: 'spinner', text, done, ms }  -> spinner animado y luego la línea `done`
- *   { type: 'pause', ms }                -> espera
+ *   { type: 'command', text }  -> se escribe letra por letra después del prompt
+ *   { type: 'output', text }   -> aparece de inmediato (admite etiquetas de estilo)
+ *   { type: 'pause', ms }      -> espera
  *
- * Etiquetas de color en el texto: [success]..[/success], [error], [warning],
- * [info], [accent], [muted], [dim], [bold]
+ * Etiquetas de estilo en el texto: [bold]..[/bold], [muted]..[/muted]
+ * La terminal toma la altura del texto final completo, así que nunca se corta.
  */
 
-const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-const TAG_RE = /\[(success|error|warning|info|accent|muted|dim|bold)\]([\s\S]*?)\[\/\1\]/g;
+const TAG_RE = /\[(muted|bold)\]([\s\S]*?)\[\/\1\]/g;
 
 function renderRich(text) {
   const parts = [];
@@ -38,16 +36,9 @@ function renderRich(text) {
 
 const stripTags = text => text.replace(TAG_RE, '$2');
 
-// Todas las líneas en su estado final (para prefers-reduced-motion)
-function finalLines(script) {
-  return script
-    .filter(step => step.type !== 'pause')
-    .map(step =>
-      step.type === 'spinner'
-        ? { type: 'output', text: step.done ?? step.text }
-        : { type: step.type, text: step.text, done: true }
-    );
-}
+// Todas las líneas en su estado final
+const finalLines = script =>
+  script.filter(step => step.type !== 'pause').map(step => ({ type: step.type, text: step.text, done: true }));
 
 export default function TerminalReplay({
   script,
@@ -60,13 +51,9 @@ export default function TerminalReplay({
   startDelay = 700,
   hold = 3200,
   loop = true,
-  // Sin `height`, la terminal toma la altura del texto final completo (nunca se corta).
-  // Con `height`, es fija y las líneas antiguas se desvanecen arriba.
-  height,
   className = '',
 }) {
   const rootRef = useRef(null);
-  const bodyRef = useRef(null);
   const ctrlRef = useRef({ visible: false, skip: false });
   const [lines, setLinesState] = useState([]);
   const [reduced] = useState(
@@ -149,22 +136,6 @@ export default function TerminalReplay({
             continue;
           }
 
-          if (step.type === 'spinner') {
-            const i = index++;
-            setLines(prev => [...prev, { type: 'spinner', text: step.text, frame: 0 }]);
-            const total = step.ms ?? 1400;
-            for (let t = 0, f = 0; t < total; t += 80, f++) {
-              if (cancelled) return;
-              if (ctrl.skip) break;
-              update(i, { frame: f % SPINNER_FRAMES.length });
-              await wait(80);
-            }
-            update(i, { type: 'output', text: step.done ?? step.text });
-            ctrl.skip = false;
-            await wait(lineDelay);
-            continue;
-          }
-
           // output
           index++;
           setLines(prev => [...prev, { type: 'output', text: step.text }]);
@@ -182,12 +153,6 @@ export default function TerminalReplay({
       cancelled = true;
     };
   }, [script, reduced, typingSpeed, variance, lineDelay, startDelay, hold, loop]);
-
-  // Mantener visible la última línea
-  useEffect(() => {
-    const body = bodyRef.current;
-    if (body) body.scrollTop = body.scrollHeight;
-  }, [lines]);
 
   const skip = () => {
     ctrlRef.current.skip = true;
@@ -222,48 +187,37 @@ export default function TerminalReplay({
         <span className="tr-title">{title}</span>
       </div>
 
-      <div className={`tr-screen ${height ? 'tr-screen--fixed' : ''}`} style={height ? { height } : undefined}>
-        {!height && (
-          // Copia invisible del resultado final: reserva el espacio para que la caja no cambie de tamaño
-          <div className="tr-body tr-ghost" aria-hidden="true">
-            {finalLines(script).map((line, i) =>
-              line.type === 'command' ? (
-                <div key={i} className="tr-line">
-                  {directory} {prompt} {line.text}
-                </div>
-              ) : (
-                <div key={i} className="tr-line">
-                  {line.text ? renderRich(line.text) : ' '}
-                </div>
-              )
-            )}
-            <div className="tr-line">&nbsp;</div>
-          </div>
-        )}
-        <div ref={bodyRef} className="tr-body" aria-hidden="true">
-          {lines.map((line, i) => {
-            if (line.type === 'command') {
-              return (
-                <div key={i} className="tr-line">
-                  <span className="tr-dir">{directory}</span> <span className="tr-prompt">{prompt}</span>{' '}
-                  <span className="tr-cmd">{line.text}</span>
-                  {i === last && typing && <span className="tr-caret" />}
-                </div>
-              );
-            }
-            if (line.type === 'spinner') {
-              return (
-                <div key={i} className="tr-line">
-                  <span className="tr-accent">{SPINNER_FRAMES[line.frame]}</span> {renderRich(line.text)}
-                </div>
-              );
-            }
-            return (
+      <div className="tr-screen">
+        {/* Copia invisible del resultado final: reserva el espacio para que la caja no cambie de tamaño */}
+        <div className="tr-body tr-ghost" aria-hidden="true">
+          {finalLines(script).map((line, i) =>
+            line.type === 'command' ? (
+              <div key={i} className="tr-line">
+                {directory} {prompt} {line.text}
+              </div>
+            ) : (
+              <div key={i} className="tr-line">
+                {line.text ? renderRich(line.text) : ' '}
+              </div>
+            )
+          )}
+          <div className="tr-line">&nbsp;</div>
+        </div>
+
+        <div className="tr-body" aria-hidden="true">
+          {lines.map((line, i) =>
+            line.type === 'command' ? (
+              <div key={i} className="tr-line">
+                <span className="tr-dir">{directory}</span> <span className="tr-prompt">{prompt}</span>{' '}
+                <span className="tr-cmd">{line.text}</span>
+                {i === last && typing && <span className="tr-caret" />}
+              </div>
+            ) : (
               <div key={i} className="tr-line tr-output">
                 {line.text ? renderRich(line.text) : ' '}
               </div>
-            );
-          })}
+            )
+          )}
           {!typing && (
             <div className="tr-line">
               <span className="tr-dir">{directory}</span> <span className="tr-prompt">{prompt}</span>{' '}
@@ -278,7 +232,7 @@ export default function TerminalReplay({
         {script
           .filter(step => step.type !== 'pause')
           .map((step, i) => (
-            <p key={i}>{stripTags(step.type === 'spinner' ? (step.done ?? step.text) : step.text)}</p>
+            <p key={i}>{stripTags(step.text)}</p>
           ))}
       </div>
     </div>

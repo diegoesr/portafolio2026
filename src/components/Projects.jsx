@@ -1,3 +1,4 @@
+import ParallaxCarousel from './ParallaxCarousel';
 import './Projects.css';
 import checkpointImage from '../assets/images/projects/project4.jpg';
 import project1Image from '../assets/images/projects/project1.jpg';
@@ -52,44 +53,42 @@ const projects = [
 ];
 
 export default function Projects() {
+  const items = projects.map(project => ({
+    id: project.id,
+    image: project.image,
+    alt: `Captura de ${project.title}`,
+    content: (
+      <>
+        <h3 className="project-title">{project.title}</h3>
+        <p className="project-description">{project.description}</p>
+        <div className="project-technologies">
+          {project.technologies.map(tech => (
+            <span key={tech} className="tech-tag">
+              {tech}
+            </span>
+          ))}
+        </div>
+        <div className="project-links">
+          <a href={project.github} className="project-link" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span>
+            <span>→</span>
+          </a>
+          {project.demo && project.demo !== '#' && (
+            <a href={project.demo} className="project-link" target="_blank" rel="noopener noreferrer">
+              <span>Demo</span>
+              <span>→</span>
+            </a>
+          )}
+        </div>
+      </>
+    ),
+  }));
+
   return (
     <section id="projects" className="projects">
       <div className="container">
         <h2 className="section-title">Proyectos</h2>
-        <div className="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="project-card">
-              <div className="project-image">
-                {project.image ? (
-                  <img src={project.image} alt={project.title} className="project-screenshot" />
-                ) : (
-                  <span className="project-emoji">{project.image || '💼'}</span>
-                )}
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                <div className="project-technologies">
-                  {project.technologies.map((tech, index) => (
-                    <span key={index} className="tech-tag">{tech}</span>
-                  ))}
-                </div>
-                <div className="project-links">
-                  <a href={project.github} className="project-link" target="_blank" rel="noopener noreferrer">
-                    <span>GitHub</span>
-                    <span>→</span>
-                  </a>
-                  {project.demo && project.demo !== '#' && (
-                    <a href={project.demo} className="project-link" target="_blank" rel="noopener noreferrer">
-                      <span>Demo</span>
-                      <span>→</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ParallaxCarousel items={items} />
       </div>
     </section>
   );

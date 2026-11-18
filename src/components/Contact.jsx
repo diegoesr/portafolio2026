@@ -1,6 +1,22 @@
+import ReceiptPrinter from './ReceiptPrinter';
 import './Contact.css';
-import { SiLinkedin, SiGithub } from 'react-icons/si';
-import { MdEmail } from 'react-icons/md';
+
+const RECEIPT_LINES = [
+  { type: 'title', text: 'DIEGO ESPARZA' },
+  { type: 'text', text: 'Desarrollador Full Stack', align: 'center', muted: true },
+  { type: 'divider' },
+  { type: 'row', left: 'PEDIDO', right: 'Portafolio 2026' },
+  { type: 'row', left: 'ESTADO', right: 'Disponible' },
+  { type: 'divider' },
+  { type: 'row', left: 'EMAIL', right: 'diego_esparza02@outlook.com', href: 'mailto:diego_esparza02@outlook.com' },
+  { type: 'row', left: 'LINKEDIN', right: 'in/diegoesr', href: 'https://www.linkedin.com/in/diegoesr' },
+  { type: 'row', left: 'GITHUB', right: 'diegoesr', href: 'https://github.com/diegoesr' },
+  { type: 'divider' },
+  { type: 'row', left: 'TOTAL', right: '¡Hablemos!' },
+  { type: 'barcode', value: 'DIEGOESR-2026' },
+  { type: 'space' },
+  { type: 'text', text: 'Gracias por tu visita.', align: 'center' },
+];
 
 export default function Contact() {
   return (
@@ -8,41 +24,8 @@ export default function Contact() {
       <div className="container">
         <h2 className="section-title">Contacto</h2>
         <div className="contact-content">
-          <div className="contact-info">
-            <h3 className="contact-title">¡Hablemos!</h3>
-            <p>
-              Estoy siempre abierto a discutir nuevos proyectos, ideas creativas
-              o oportunidades para ser parte de tus visiones.
-            </p>
-            <div className="contact-details">
-              <div className="contact-item">
-                <MdEmail className="contact-icon" style={{ color: '#0078D4' }} />
-                <div>
-                  <strong>Email</strong>
-                  <a href="mailto:diego_esparza02@outlook.com" className="contact-link">
-                    diego_esparza02@outlook.com
-                  </a>
-                </div>
-              </div>
-              <div className="contact-item">
-                <SiLinkedin className="contact-icon" style={{ color: '#0077B5' }} />
-                <div>
-                  <strong>LinkedIn</strong>
-                  <a href="https://www.linkedin.com/in/diegoesr" target="_blank" rel="noopener noreferrer" className="contact-link">
-                    www.linkedin.com/in/diegoesr
-                  </a>
-                </div>
-              </div>
-              <div className="contact-item">
-                <SiGithub className="contact-icon" style={{ color: '#6e5494' }} />
-                <div>
-                  <strong>GitHub</strong>
-                  <a href="https://github.com/diegoesr" target="_blank" rel="noopener noreferrer" className="contact-link">
-                    github.com/diegoesr
-                  </a>
-                </div>
-              </div>
-            </div>
+          <div className="contact-printer">
+            <ReceiptPrinter lines={RECEIPT_LINES} width={300} />
           </div>
         </div>
       </div>

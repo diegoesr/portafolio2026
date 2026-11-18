@@ -8,85 +8,13 @@
 .contact-content {
   display: flex;
   justify-content: center;
-  align-items: start;
 }
 
-.contact-info {
-  background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: blur(10px);
-  padding: 3rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
-  max-width: 600px;
+.contact-printer {
+  display: flex;
+  justify-content: center;
   width: 100%;
-}
-
-.contact-title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  background: linear-gradient(135deg, #ffffff, #9ca3af);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.contact-info p {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.8;
-  margin-bottom: 2rem;
-}
-
-.contact-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.contact-item {
-  display: flex;
-  gap: 1rem;
-  align-items: start;
-}
-
-.contact-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.contact-item:hover .contact-icon {
-  transform: scale(1.1);
-}
-
-.contact-item div {
-  flex: 1;
-}
-
-.contact-item strong {
-  display: block;
-  color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 0.3rem;
-}
-
-.contact-item p {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.contact-link {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  transition: color 0.3s ease;
-  display: block;
-  margin-top: 0.3rem;
-}
-
-.contact-link:hover {
-  color: #ffffff;
-  text-decoration: underline;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
@@ -97,33 +25,6 @@
   .section-title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
-  }
-
-  .contact-info {
-    padding: 2rem;
-  }
-
-  .contact-title {
-    font-size: 1.75rem;
-    margin-bottom: 0.875rem;
-  }
-
-  .contact-info p {
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .contact-icon {
-    font-size: 1.75rem;
-  }
-
-  .contact-item strong {
-    font-size: 0.95rem;
-  }
-
-  .contact-link {
-    font-size: 0.85rem;
-    word-break: break-word;
   }
 }
 
@@ -136,40 +37,4 @@
     font-size: 1.75rem;
     margin-bottom: 1.25rem;
   }
-
-  .contact-info {
-    padding: 1.5rem;
-  }
-
-  .contact-title {
-    font-size: 1.5rem;
-  }
-
-  .contact-info p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .contact-details {
-    gap: 1.25rem;
-  }
-
-  .contact-item {
-    gap: 0.75rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .contact-icon {
-    font-size: 1.5rem;
-  }
-
-  .contact-item strong {
-    font-size: 0.9rem;
-  }
-
-  .contact-link {
-    font-size: 0.8rem;
-  }
 }
-
