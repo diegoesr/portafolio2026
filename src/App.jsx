@@ -5,6 +5,8 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import FadeContent from './components/FadeContent';
+import { fadeProps } from './components/fadeProps';
 import './App.css';
 
 function App() {
@@ -13,12 +15,21 @@ function App() {
       <Header />
       <main className="main-content">
         <Hero />
-        <About />
-        <Projects />
+        <FadeContent {...fadeProps}>
+          <About />
+        </FadeContent>
+        <FadeContent {...fadeProps}>
+          <Projects />
+        </FadeContent>
+        {/* Skills aplica el efecto a cada pipeline por separado (la sección es muy alta) */}
         <Skills />
-        <Contact />
+        <FadeContent {...fadeProps}>
+          <Contact />
+        </FadeContent>
       </main>
-      <Footer />
+      <FadeContent {...fadeProps}>
+        <Footer />
+      </FadeContent>
     </div>
   );
 }

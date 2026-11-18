@@ -10,7 +10,7 @@
   font-weight: 700;
   text-align: center;
   margin-bottom: 2rem;
-  background: linear-gradient(135deg, #4524c6, #FF9FFC);
+  background: linear-gradient(135deg, #ffffff, #9ca3af);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -26,25 +26,25 @@
   background: rgba(10, 10, 10, 0.6);
   backdrop-filter: blur(10px);
   border-radius: 20px;
-  border: 1px solid rgba(69, 36, 198, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 32px rgba(69, 36, 198, 0.2);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
 }
 
 .project-card:hover {
   transform: translateY(-10px);
-  border-color: rgba(69, 36, 198, 0.6);
-  box-shadow: 0 12px 40px rgba(69, 36, 198, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.2);
 }
 
 .project-image {
   height: 200px;
-  background: linear-gradient(135deg, rgba(69, 36, 198, 0.2), rgba(255, 159, 252, 0.2));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(69, 36, 198, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   overflow: hidden;
 }
 
@@ -85,8 +85,8 @@
 
 .tech-tag {
   padding: 0.4rem 0.8rem;
-  background: rgba(69, 36, 198, 0.2);
-  border: 1px solid rgba(69, 36, 198, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.9);
@@ -109,7 +109,7 @@
 }
 
 .project-link:hover {
-  color: #FF9FFC;
+  color: #ffffff;
   gap: 1rem;
 }
 

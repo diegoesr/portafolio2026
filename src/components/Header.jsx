@@ -58,7 +58,7 @@ export default function Header() {
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <nav className="nav">
         <a href="#home" onClick={scrollToHome} className="nav-brand">
-          <img src="/bear.png" alt="Logo" className="brand-logo" />
+          <img src="/skullLogo.png" alt="Logo" className="brand-logo" />
         </a>
         <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
         <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
