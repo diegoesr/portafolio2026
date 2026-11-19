@@ -251,6 +251,8 @@
     backdrop-filter: blur(30px);
     padding: 0;
     gap: 0;
+    /* que el encabezado y los enlaces ocupen todo el ancho del panel */
+    align-items: stretch;
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;

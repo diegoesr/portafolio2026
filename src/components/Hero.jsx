@@ -4,6 +4,9 @@ import RotatingText from './RotatingText';
 import profileImage from '../assets/images/profileCV.jpg';
 import './Hero.css';
 
+// En celulares no hay cursor: el efecto del nombre responde solo al toque
+const canHover = typeof window !== 'undefined' && window.matchMedia?.('(hover: hover)').matches;
+
 export default function Hero() {
   const handleDownloadCV = () => {
     const link = document.createElement('a');
@@ -27,6 +30,7 @@ export default function Hero() {
               <TextPressure
                 text="Diego Esparza Rodríguez"
                 textColor="#FFFFFF"
+                trackPointer={canHover}
                 minFontSize={24}
               />
             </div>

@@ -65,6 +65,9 @@ const TextPressure = ({
   idle = 'none',
   idleSpeed = 1,
   clickRipple = true,
+  // false: no seguir el cursor/dedo (pantallas táctiles); las letras quedan en reposo
+  // y solo reaccionan con la onda al tocar
+  trackPointer = true,
 
   textColor = 'currentColor',
   pressureColor = '',
@@ -146,17 +149,23 @@ const TextPressure = ({
       wake();
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchstart', handleTouch, { passive: true });
-    window.addEventListener('touchmove', handleTouch, { passive: true });
-    window.addEventListener('touchend', handleLeave);
-    window.addEventListener('touchcancel', handleLeave);
+    if (trackPointer) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('touchstart', handleTouch, { passive: true });
+      window.addEventListener('touchmove', handleTouch, { passive: true });
+      window.addEventListener('touchend', handleLeave);
+      window.addEventListener('touchcancel', handleLeave);
+    }
     window.addEventListener('scroll', wake, { passive: true, capture: true });
     document.documentElement.addEventListener('mouseleave', handleLeave);
     document.fonts?.addEventListener?.('loadingdone', wake);
     container?.addEventListener('pointerdown', handlePress);
 
-    if (container) {
+    if (!trackPointer) {
+      // "cursor" fuera de la pantalla: ninguna letra recibe presión
+      mouseRef.current.x = mouseRef.current.y = -1e5;
+      cursor.x = cursor.y = -1e5;
+    } else if (container) {
       const { left, top, width, height } = container.getBoundingClientRect();
       mouseRef.current.x = left + width / 2;
       mouseRef.current.y = top + height / 2;
@@ -182,7 +191,7 @@ const TextPressure = ({
       container?.removeEventListener('pointerdown', handlePress);
       observer.disconnect();
     };
-  }, []);
+  }, [trackPointer]);
 
   useIsomorphicLayoutEffect(() => {
     const container = containerRef.current;
